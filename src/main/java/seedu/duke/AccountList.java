@@ -13,7 +13,7 @@ public class AccountList {
     // Currency implementation only specifies one account per currency, if required would have to change to a
     // Hashmap of ArrayList of account in the future and randomly generate an ID for that account
     private final HashMap<Currency, Account> accountHashMap;
-
+    
     public AccountList () {
         accountHashMap = new HashMap<>();
     }
@@ -42,7 +42,7 @@ public class AccountList {
         if (!accountHashMap.containsKey(currency)) {
             throw new NoAccountException();
         }
-        if ((int) accountHashMap.get(currency).getBalance() != 0) {
+        if (accountHashMap.get(currency).getBalance() != (float) 0) {
             throw new AccountNotEmptyException();
         }
         accountHashMap.remove(currency);
@@ -75,7 +75,7 @@ public class AccountList {
         return accountHashMap.get(currency);
     }
 
-    public void addAmount(Currency currency, float amount) throws NoAccountException {
+    public void addAmount (Currency currency, float amount) throws NoAccountException {
         if (!accountHashMap.containsKey(currency)) {
             throw new NoAccountException();
         }
@@ -87,7 +87,7 @@ public class AccountList {
         accountHashMap.put(currency, new Account(newBalance, currency));
     }
 
-    public int withdrawAmount(float amount, Currency currency) throws NoAccountException, InsufficientAccountBalance {
+    public int withdrawAmount (float amount, Currency currency) throws NoAccountException, InsufficientAccountBalance {
         if (!accountHashMap.containsKey(currency)) {
             throw new NoAccountException();
         }

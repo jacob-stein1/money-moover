@@ -24,49 +24,50 @@ public class CreateAccountTest {
     public void setUp() {
         System.setOut(new PrintStream(outputStreamCaptor));
     }
+
     @Test
-    public void execute_correctInputProvided_shouldCreateAccount(){
-        try{
+    public void execute_correctInputProvided_shouldCreateAccount() {
+        try {
             Ui ui = new Ui();
             AccountList accounts = new AccountList();
             Command command = new CreateAccountCommand("create-account EUR");
-            command.execute(ui,accounts);
-            assertDoesNotThrow(()->{
+            command.execute(ui, accounts);
+            assertDoesNotThrow(() -> {
                 accounts.getAccount(Currency.EUR);
             });
-            assertThrows(NoAccountException.class, ()->{
+            assertThrows(NoAccountException.class, () -> {
                 accounts.getAccount(Currency.USD);
             });
-        }catch (Exception e){
+        } catch (Exception e) {
             fail();
         }
     }
 
     @Test
-    public void execute_multipleCurrenciesProvided_shouldThrowException(){
+    public void execute_multipleCurrenciesProvided_shouldThrowException() {
         Ui ui = new Ui();
         AccountList accounts = new AccountList();
         Command command = new CreateAccountCommand("create-account EUR USD");
-        command.execute(ui,accounts);
+        command.execute(ui, accounts);
         assertEquals(ErrorMessage.INVALID_CREATE_ACCOUNT_COMMAND, outputStreamCaptor.toString().trim());
     }
 
     @Test
-    public void execute_invalidCurrencyProvided_shouldThrowException(){
+    public void execute_invalidCurrencyProvided_shouldThrowException() {
         Ui ui = new Ui();
         AccountList accounts = new AccountList();
         Command command = new CreateAccountCommand("create-account XYZ");
-        command.execute(ui,accounts);
-        assertEquals(ErrorMessage.INVALID_CREATE_ACCOUNT_COMMAND, outputStreamCaptor.toString().trim());
+        command.execute(ui, accounts);
+        assertEquals(ErrorMessage.INVALID_CURRENCY, outputStreamCaptor.toString().trim());
     }
 
     @Test
-    public void execute_currencyAccountAlreadyExists_shouldThrowException(){
+    public void execute_currencyAccountAlreadyExists_shouldThrowException() {
         Ui ui = new Ui();
         AccountList accounts = new AccountList();
         Command command = new CreateAccountCommand("create-account EUR");
-        command.execute(ui,accounts);
-        command.execute(ui,accounts);
+        command.execute(ui, accounts);
+        command.execute(ui, accounts);
         assertEquals("You have successfully added the EUR account\n" +
                 ErrorMessage.ACCOUNT_ALREADY_EXISTS, outputStreamCaptor.toString().trim());
     }
