@@ -9,7 +9,7 @@ public interface ErrorMessage {
     String INVALID_CURRENCY = "An invalid currency has been provided.";
     String INVALID_NUMERICAL_AMOUNT = "Please provide a float amount to update";
     String INVALID_CREATE_ACCOUNT_COMMAND = "create-account must be used with the following format: " +
-            "create-account <CURRENCY>";
+            "create-account CURRENCY";
     String MORE_THAN_ONE_CURRENCY_PROVIDED = "Please do not provide more than one currency.";
     String NO_SUCH_ACCOUNT = "You do not have an account for the currency.";
 
@@ -29,6 +29,8 @@ public interface ErrorMessage {
     String SHOWRATE_SYNTAX = "Please structure show-rate as 'show-rate CURRENCY CURRENCY [AMOUNT]'";
     String ACCOUNT_ALREADY_EXISTS = "You already have an account of this currency";
     String INVALID_UPDATE_BALANCE_ACTION = "The provided action for updating balance was invalid";
+    String EXCEED_AMOUNT_ALLOWED = "You are not allowed to store more than $10,000,000 in your account. Please" 
+        + " check how much you have in your balance and how much you are depositing before adding the value in.";
     String EXCHANGE_AMOUNT_TOO_SMALL = "The amount is too small to exchange " +
             "(e.g. does not become at least 0.01 in the target currency)";
 

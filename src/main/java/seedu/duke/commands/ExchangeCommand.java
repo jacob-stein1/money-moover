@@ -2,7 +2,6 @@ package seedu.duke.commands;
 
 import seedu.duke.Account;
 import seedu.duke.AccountList;
-import seedu.duke.Forex;
 import seedu.duke.Currency;
 import seedu.duke.ui.Ui;
 import seedu.duke.constants.ErrorMessage;
@@ -15,7 +14,18 @@ import seedu.duke.exceptions.NotEnoughInAccountException;
 import seedu.duke.exceptions.InvalidNumberException;
 import seedu.duke.exceptions.InvalidUpdateBalanceActionException;
 import seedu.duke.ui.Ui;
+import seedu.duke.Forex;
 import seedu.duke.constants.ErrorMessage;
+import seedu.duke.exceptions.NoAccountException;
+import seedu.duke.exceptions.InvalidExchangeArgumentException;
+import seedu.duke.exceptions.InvalidNumberException;
+import seedu.duke.exceptions.NotEnoughInAccountException;
+import seedu.duke.exceptions.InvalidUpdateBalanceActionException;
+import seedu.duke.exceptions.ExchangeAmountTooSmallException;
+import seedu.duke.exceptions.TooLargeAmountException;
+import seedu.duke.ui.Ui;
+
+import java.math.BigDecimal;
 
 
 public class ExchangeCommand extends Command {
@@ -37,13 +47,14 @@ public class ExchangeCommand extends Command {
         try {
             // Parse input
             Forex exchangeRate = formatInput();
-            float amount = parseAmount();
+            BigDecimal amount = parseAmount();
 
             // Retrieve and edit accounts
             Account oldAcc = accounts.getAccount(exchangeRate.getInitial());
             Account newAcc = accounts.getAccount(exchangeRate.getTarget());
-            float convertedAmount = exchangeRate.convert(amount);
-            if (convertedAmount < 0.01) {
+            BigDecimal convertedAmount = exchangeRate.convert(amount);
+            BigDecimal comparator = new BigDecimal("0.01");
+            if (convertedAmount.compareTo(comparator) < 0) {
                 throw new ExchangeAmountTooSmallException();
             }
             oldAcc.updateBalance(amount, "subtract");
@@ -65,6 +76,8 @@ public class ExchangeCommand extends Command {
             ui.printMessage(ErrorMessage.NOT_ENOUGH_IN_ACCOUNT);
         } catch (InvalidUpdateBalanceActionException e) {
             ui.printMessage(ErrorMessage.INVALID_UPDATE_BALANCE_ACTION);
+        } catch (TooLargeAmountException e) {
+            ui.printMessage(ErrorMessage.EXCEED_AMOUNT_ALLOWED);
         } catch (ExchangeAmountTooSmallException e) {
             ui.printMessage(ErrorMessage.EXCHANGE_AMOUNT_TOO_SMALL);
         }
@@ -92,11 +105,11 @@ public class ExchangeCommand extends Command {
      * @throws NullPointerException  if the amount is null
      * @throws NumberFormatException if the amount is non-numeric
      */
-    public float parseAmount () throws InvalidNumberException {
+    public BigDecimal parseAmount () throws InvalidNumberException {
         try {
             String amount = input.trim().split(" ")[3];
-            float amountAsFloat = Float.parseFloat(amount);
-            if (amountAsFloat <= 0) {
+            BigDecimal amountAsFloat = new BigDecimal(amount);
+            if (amountAsFloat.compareTo(BigDecimal.ZERO) <= 0) {
                 throw new InvalidNumberException();
             }
             return amountAsFloat;

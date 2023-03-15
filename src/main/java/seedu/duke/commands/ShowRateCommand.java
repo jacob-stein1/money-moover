@@ -9,6 +9,8 @@ import seedu.duke.exceptions.InvalidNumberException;
 import seedu.duke.exceptions.InvalidShowrateArgumentException;
 import seedu.duke.constants.ErrorMessage;
 
+import java.math.BigDecimal;
+
 /**
  * Command to print the exchange rate between two currencies
  */
@@ -29,16 +31,16 @@ public class ShowRateCommand extends Command {
     public void execute (Ui ui, AccountList accounts) {
         String[] args = input.split(" ");
         try {
-            float val;
+            BigDecimal val;
             if (args.length < 3 || args.length > 4) {
                 throw new InvalidShowrateArgumentException();
             }
             Currency from = Currency.valueOf(args[1]);
             Currency to = Currency.valueOf(args[2]);
             if (args.length == 4) {
-                val = Float.parseFloat(args[3]);
+                val = new BigDecimal(args[3]);
             } else {
-                val = 1;
+                val = BigDecimal.valueOf(1);
             }
             Forex reverse = new Forex(to, from);
             Forex instance = new Forex(from, to);
@@ -66,8 +68,8 @@ public class ShowRateCommand extends Command {
      * @return a string containing the exchange rates to be printed
      * @throws InvalidNumberException if the amount is negative
      */
-    private String getRateString (Forex instance, float amt) throws InvalidNumberException {
-        if (amt < 0) {
+    private String getRateString (Forex instance, BigDecimal amt) throws InvalidNumberException {
+        if (amt.compareTo(BigDecimal.ZERO) <= 0) {
             throw new InvalidNumberException();
         }
         String from = Account.currencyToString(instance.getInitial());

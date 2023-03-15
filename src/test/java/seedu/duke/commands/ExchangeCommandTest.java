@@ -18,7 +18,7 @@ public class ExchangeCommandTest {
     public void testParseAmount_nonNumericInput_shouldThrowInvalidNumberException () {
         try {
             ExchangeCommand cmd = new ExchangeCommand("exchange THB SGD xyz");
-            assertThrows(InvalidNumberException.class, () -> cmd.parseAmount());
+            assertThrows(InvalidNumberException.class, cmd::parseAmount);
         } catch (Exception e) {
             fail();
         }
@@ -28,7 +28,7 @@ public class ExchangeCommandTest {
     public void testParseAmount_negativeInput_shouldThrowInvalidNumberException () {
         try {
             ExchangeCommand cmd = new ExchangeCommand("exchange THB SGD -1.0");
-            assertThrows(InvalidNumberException.class, () -> cmd.parseAmount());
+            assertThrows(InvalidNumberException.class, cmd::parseAmount);
         } catch (Exception e) {
             fail();
         }
@@ -41,10 +41,10 @@ public class ExchangeCommandTest {
             ExchangeCommand cmd2 = new ExchangeCommand("exchange THB SGD");
             ExchangeCommand cmd3 = new ExchangeCommand("exchange THB");
             ExchangeCommand cmd4 = new ExchangeCommand("exchange");
-            assertThrows(AssertionError.class, () -> cmd1.formatInput());
-            assertThrows(AssertionError.class, () -> cmd2.formatInput());
-            assertThrows(AssertionError.class, () -> cmd3.formatInput());
-            assertThrows(AssertionError.class, () -> cmd4.formatInput());
+            assertThrows(InvalidExchangeArgumentException.class, cmd1::formatInput);
+            assertThrows(InvalidExchangeArgumentException.class, cmd2::formatInput);
+            assertThrows(InvalidExchangeArgumentException.class, cmd3::formatInput);
+            assertThrows(InvalidExchangeArgumentException.class, cmd4::formatInput);
         } catch (Exception e) {
             fail();
         }
@@ -54,7 +54,7 @@ public class ExchangeCommandTest {
     public void testFormatInput_invalidCurrency_shouldThrowIllegalArgumentException () {
         try {
             ExchangeCommand cmd = new ExchangeCommand("exchange THB XYZ 1.0");
-            assertThrows(IllegalArgumentException.class, () -> cmd.formatInput());
+            assertThrows(IllegalArgumentException.class, cmd::formatInput);
         } catch (Exception e) {
             fail();
         }
@@ -64,7 +64,7 @@ public class ExchangeCommandTest {
     public void testFormatInput_correctSyntax_shouldNotThrow () {
         try {
             ExchangeCommand cmd = new ExchangeCommand("exchange THB SGD 1.0");
-            assertDoesNotThrow(() -> cmd.formatInput());
+            assertDoesNotThrow(cmd::formatInput);
         } catch (Exception e) {
             fail();
         }
@@ -74,7 +74,7 @@ public class ExchangeCommandTest {
     public void testParseAmount_correctSyntax_shouldNotThrow () {
         try {
             ExchangeCommand cmd = new ExchangeCommand("exchange THB SGD 1.0");
-            assertDoesNotThrow(() -> cmd.parseAmount());
+            assertDoesNotThrow(cmd::parseAmount);
         } catch (Exception e) {
             fail();
         }

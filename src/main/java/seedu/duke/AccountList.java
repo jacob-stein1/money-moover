@@ -1,9 +1,8 @@
 package seedu.duke;
 
 
-import seedu.duke.exceptions.InsufficientAccountBalance;
-import seedu.duke.exceptions.AccountNotEmptyException;
 import seedu.duke.exceptions.AccountAlreadyExistsException;
+import seedu.duke.exceptions.AccountNotEmptyException;
 import seedu.duke.exceptions.NoAccountException;
 
 import java.util.ArrayList;
@@ -55,9 +54,7 @@ public class AccountList {
      */
     public ArrayList<Account> getAllAccounts () {
         ArrayList<Account> accounts = new ArrayList<>();
-        accountHashMap.forEach(((currency, account) -> {
-            accounts.add(account);
-        }));
+        accountHashMap.forEach(((currency, account) -> accounts.add(account)));
         return accounts;
     }
 
@@ -73,32 +70,6 @@ public class AccountList {
             throw new NoAccountException();
         }
         return accountHashMap.get(currency);
-    }
-
-    public void addAmount (Currency currency, float amount) throws NoAccountException {
-        if (!accountHashMap.containsKey(currency)) {
-            throw new NoAccountException();
-        }
-
-        int currentAmount = (int) accountHashMap.get(currency).getBalance();
-
-        int newBalance = currentAmount + (int) amount;
-
-        accountHashMap.put(currency, new Account(newBalance, currency));
-    }
-
-    public int withdrawAmount (float amount, Currency currency) throws NoAccountException, InsufficientAccountBalance {
-        if (!accountHashMap.containsKey(currency)) {
-            throw new NoAccountException();
-        }
-
-        int currentAmount = (int) accountHashMap.get(currency).getBalance();
-        int newBalance = currentAmount - (int) amount;
-        if (newBalance < 0) {
-            throw new InsufficientAccountBalance();
-        }
-        accountHashMap.put(currency, new Account(newBalance, currency));
-        return newBalance;
     }
 
 }

@@ -17,7 +17,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.fail;
 
 public class CreateAccountTest {
-    private final PrintStream standardOut = System.out;
     private final ByteArrayOutputStream outputStreamCaptor = new ByteArrayOutputStream();
 
     @BeforeEach
@@ -35,9 +34,7 @@ public class CreateAccountTest {
             assertDoesNotThrow(() -> {
                 accounts.getAccount(Currency.EUR);
             });
-            assertThrows(NoAccountException.class, () -> {
-                accounts.getAccount(Currency.USD);
-            });
+            assertThrows(NoAccountException.class, () -> accounts.getAccount(Currency.USD));
         } catch (Exception e) {
             fail();
         }

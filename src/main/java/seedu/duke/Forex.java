@@ -61,12 +61,12 @@ public class Forex {
      * @param amount amount to be converted from initial to target
      * @return amount converted to target currency
      */
-    public float convert (float amount) {
-        BigDecimal amountInSGD = BigDecimal.valueOf(amount).divide(
+    public BigDecimal convert (BigDecimal amount) {
+        BigDecimal amountInSGD = amount.divide(
                 exchangeRates.get(initial), 10, RoundingMode.HALF_UP
         );
         BigDecimal amountInTarget = amountInSGD.multiply(exchangeRates.get(target));
-        return amountInTarget.floatValue();
+        return amountInTarget;
     }
 
     // Accessor methods
