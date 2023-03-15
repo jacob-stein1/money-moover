@@ -2,7 +2,6 @@ package seedu.duke.commands;
 
 import org.junit.jupiter.api.Test;
 import seedu.duke.exceptions.InvalidNumberException;
-import seedu.duke.exceptions.InvalidExchangeArgumentException;
 import seedu.duke.AccountList;
 import seedu.duke.ui.Ui;
 import seedu.duke.Currency;
@@ -38,16 +37,16 @@ public class ExchangeCommandTest {
     }
 
     @Test
-    public void testFormatInput_incorrectSyntax_shouldThrowInvalidExchangeArgumentException () {
+    public void testFormatInput_incorrectSyntax_shouldThrowAssertionError () {
         try {
             ExchangeCommand cmd1 = new ExchangeCommand("exchange THB SGD 1.0 2.0");
             ExchangeCommand cmd2 = new ExchangeCommand("exchange THB SGD");
             ExchangeCommand cmd3 = new ExchangeCommand("exchange THB");
             ExchangeCommand cmd4 = new ExchangeCommand("exchange");
-            assertThrows(InvalidExchangeArgumentException.class, cmd1::formatInput);
-            assertThrows(InvalidExchangeArgumentException.class, cmd2::formatInput);
-            assertThrows(InvalidExchangeArgumentException.class, cmd3::formatInput);
-            assertThrows(InvalidExchangeArgumentException.class, cmd4::formatInput);
+            assertThrows(AssertionError.class, cmd1::formatInput);
+            assertThrows(AssertionError.class, cmd2::formatInput);
+            assertThrows(AssertionError.class, cmd3::formatInput);
+            assertThrows(AssertionError.class, cmd4::formatInput);
         } catch (Exception e) {
             fail();
         }
@@ -103,4 +102,19 @@ public class ExchangeCommandTest {
             fail();
         }
     }
+
+    // @Test
+    // public void testExecute_largeInput_shouldThrowTooLargeAmountException () {
+    //     try {
+    //         ExchangeCommand cmd = new ExchangeCommand("exchange SGD VND 100000000");
+    //         AccountList accounts = new AccountList();
+    //         Ui ui = new Ui();
+    //         accounts.addAccount(Currency.SGD, 100000000);
+    //         accounts.addAccount(Currency.VND, 0);
+    //         cmd.execute(ui, accounts);
+    //         assertThrows(TooLargeAmountException.class, cmd::formatInput);
+    //     } catch (Exception e) {
+    //         fail();
+    //     }
+    // }
 }
