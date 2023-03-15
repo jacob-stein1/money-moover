@@ -6,6 +6,7 @@ import seedu.duke.exceptions.InvalidExchangeArgumentException;
 import seedu.duke.Currency;
 import seedu.duke.ui.Ui;
 import seedu.duke.AccountList;
+import seedu.duke.Forex;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
@@ -89,10 +90,12 @@ public class ExchangeCommandTest {
             accounts.addAccount(Currency.SGD, 2000);
             accounts.addAccount(Currency.JPY, 0);
             cmd.execute(ui, accounts);
-            int expectedSGD = (int) accounts.getAccount(Currency.SGD).getBalance();
-            int expectedJPY = (int) accounts.getAccount(Currency.JPY).getBalance();
-            assertEquals(expectedSGD, 1000);
-            assertEquals(expectedJPY, 5000);
+            int actualSGD = (int) accounts.getAccount(Currency.SGD).getBalance();
+            int actualJPY = (int) accounts.getAccount(Currency.JPY).getBalance();
+            int expectedSGD = 1000;
+            int expectedJPY = 1000 * (int) Forex.getExchangeRate(Currency.JPY); 
+            assertEquals(expectedSGD, actualSGD);
+            assertEquals(expectedJPY, expectedJPY);
         } catch (Exception e) {
             fail();
         }

@@ -63,4 +63,7 @@ public class Forex {
     public Currency getTarget() {
         return target;
     }
+    public static float getExchangeRate(Currency currency) {
+        return exchangeRates.get(currency);
+    }
 }
