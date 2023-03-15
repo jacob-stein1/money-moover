@@ -8,7 +8,6 @@ import seedu.duke.ui.Ui;
 import seedu.duke.constants.ErrorMessage;
 
 import seedu.duke.exceptions.NoAccountException;
-// import seedu.duke.exceptions.InvalidExchangeArgumentException;
 import seedu.duke.exceptions.InvalidNumberException;
 import seedu.duke.exceptions.NotEnoughInAccountException;
 import seedu.duke.exceptions.InvalidUpdateBalanceActionException;
@@ -69,9 +68,6 @@ public class ExchangeCommand extends Command {
      */
     public Forex formatInput () throws AssertionError {
         String[] splitInput = input.trim().split(" ");
-        // if (splitInput.length != 4) {
-        //     throw new InvalidExchangeArgumentException();
-        // }
         assert splitInput.length == 4;
         Currency initial = Currency.valueOf(splitInput[1]);
         Currency target = Currency.valueOf(splitInput[2]);
