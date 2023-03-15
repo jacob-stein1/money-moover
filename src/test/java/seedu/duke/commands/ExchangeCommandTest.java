@@ -3,10 +3,17 @@ package seedu.duke.commands;
 import org.junit.jupiter.api.Test;
 import seedu.duke.exceptions.InvalidNumberException;
 import seedu.duke.exceptions.InvalidExchangeArgumentException;
+import seedu.duke.AccountList;
+import seedu.duke.ui.Ui;
+import seedu.duke.Currency;
+import seedu.duke.Forex;
+
+import java.math.BigDecimal;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ExchangeCommandTest {
 
@@ -71,6 +78,27 @@ public class ExchangeCommandTest {
         try {
             ExchangeCommand cmd = new ExchangeCommand("exchange THB SGD 1.0");
             assertDoesNotThrow(cmd::parseAmount);
+        } catch (Exception e) {
+            fail();
+        }
+    }
+
+    @Test
+    public void testExecute_correctSyntax_shouldUpdateBalances() {
+        try {
+            ExchangeCommand cmd = new ExchangeCommand("exchange SGD JPY 1000");
+            AccountList accounts = new AccountList();
+            Ui ui = new Ui();
+            accounts.addAccount(Currency.SGD, 2000);
+            accounts.addAccount(Currency.JPY, 0);
+            cmd.execute(ui, accounts);
+            BigDecimal actualSGD = new BigDecimal(accounts.getAccount(Currency.SGD).getBalance());
+            BigDecimal actualJPY = new BigDecimal(accounts.getAccount(Currency.JPY).getBalance());
+            BigDecimal expectedSGD = new BigDecimal(1000);
+            Forex instance = new Forex(Currency.SGD, Currency.JPY);
+            BigDecimal expectedJPY = instance.convert(new BigDecimal(1000));
+            assertEquals(expectedSGD, actualSGD);
+            assertEquals((int) expectedJPY.floatValue(), (int) actualJPY.floatValue());
         } catch (Exception e) {
             fail();
         }

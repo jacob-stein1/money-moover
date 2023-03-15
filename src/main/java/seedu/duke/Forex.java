@@ -77,4 +77,8 @@ public class Forex {
     public Currency getTarget () {
         return target;
     }
+
+    public static BigDecimal getRate(Currency currency) {
+        return exchangeRates.get(currency);
+    }
 }
