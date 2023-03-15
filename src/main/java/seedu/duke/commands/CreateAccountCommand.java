@@ -7,12 +7,12 @@ import seedu.duke.constants.Message;
 import seedu.duke.exceptions.AccountAlreadyExistsException;
 import seedu.duke.ui.Ui;
 
-public class CreateAccountCommand extends Command{
+public class CreateAccountCommand extends Command {
 
     /**
      * @param input The full user input according to the command word {@code create-account SGD}
      */
-    public CreateAccountCommand(String input){
+    public CreateAccountCommand(String input) {
         super(false, input);
     }
 
@@ -22,18 +22,18 @@ public class CreateAccountCommand extends Command{
     @Override
     public void execute(Ui ui, AccountList accounts) {
         String[] userInputs = input.split(" ");
-        if(userInputs.length != 2){
+        if (userInputs.length != 2) {
             ui.printMessage(ErrorMessage.INVALID_CREATE_ACCOUNT_COMMAND);
             return;
         }
         String currencyString = userInputs[1];
-        try{
+        try {
             Currency currency = Currency.valueOf(currencyString);
             accounts.addAccount(currency, 0.0f);
             ui.printf(Message.SUCCESSFUL_CREATE_ACCOUNT_COMMAND.getMessage(), currency);
-        }catch (IllegalArgumentException e){
-            ui.printMessage(ErrorMessage.INVALID_CREATE_ACCOUNT_COMMAND);
-        }catch (AccountAlreadyExistsException e){
+        } catch (IllegalArgumentException e) {
+            ui.printMessage(ErrorMessage.INVALID_CURRENCY);
+        } catch (AccountAlreadyExistsException e) {
             ui.printMessage(ErrorMessage.ACCOUNT_ALREADY_EXISTS);
         }
     }
