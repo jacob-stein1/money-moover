@@ -2,7 +2,7 @@ package seedu.duke.commands;
 
 import org.junit.jupiter.api.Test;
 import seedu.duke.exceptions.InvalidNumberException;
-import seedu.duke.exceptions.InvalidExchangeArgumentException;
+// import seedu.duke.exceptions.InvalidExchangeArgumentException;
 import seedu.duke.Currency;
 import seedu.duke.ui.Ui;
 import seedu.duke.AccountList;
@@ -36,16 +36,16 @@ public class ExchangeCommandTest {
     }
 
     @Test
-    public void testFormatInput_incorrectSyntax_shouldThrowInvalidExchangeArgumentException () {
+    public void testFormatInput_incorrectSyntax_shouldThrowAssertionError () {
         try {
             ExchangeCommand cmd1 = new ExchangeCommand("exchange THB SGD 1.0 2.0");
             ExchangeCommand cmd2 = new ExchangeCommand("exchange THB SGD");
             ExchangeCommand cmd3 = new ExchangeCommand("exchange THB");
             ExchangeCommand cmd4 = new ExchangeCommand("exchange");
-            assertThrows(InvalidExchangeArgumentException.class, () -> cmd1.formatInput());
-            assertThrows(InvalidExchangeArgumentException.class, () -> cmd2.formatInput());
-            assertThrows(InvalidExchangeArgumentException.class, () -> cmd3.formatInput());
-            assertThrows(InvalidExchangeArgumentException.class, () -> cmd4.formatInput());
+            assertThrows(AssertionError.class, () -> cmd1.formatInput());
+            assertThrows(AssertionError.class, () -> cmd2.formatInput());
+            assertThrows(AssertionError.class, () -> cmd3.formatInput());
+            assertThrows(AssertionError.class, () -> cmd4.formatInput());
         } catch (Exception e) {
             fail();
         }

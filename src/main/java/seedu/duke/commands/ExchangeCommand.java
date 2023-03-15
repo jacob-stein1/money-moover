@@ -8,7 +8,7 @@ import seedu.duke.ui.Ui;
 import seedu.duke.constants.ErrorMessage;
 
 import seedu.duke.exceptions.NoAccountException;
-import seedu.duke.exceptions.InvalidExchangeArgumentException;
+// import seedu.duke.exceptions.InvalidExchangeArgumentException;
 import seedu.duke.exceptions.InvalidNumberException;
 import seedu.duke.exceptions.NotEnoughInAccountException;
 import seedu.duke.exceptions.InvalidUpdateBalanceActionException;
@@ -49,7 +49,7 @@ public class ExchangeCommand extends Command {
             ui.printMessage(ErrorMessage.NO_SUCH_ACCOUNT);
         } catch (IllegalArgumentException e) {
             ui.printMessage(ErrorMessage.INVALID_CURRENCY);
-        } catch (InvalidExchangeArgumentException e) {
+        } catch (AssertionError e) {
             ui.printMessage(ErrorMessage.INVALID_EXCHANGE_ARGUMENT);
         } catch (InvalidNumberException e) {
             ui.printMessage(ErrorMessage.INVALID_NUMBER);
@@ -67,11 +67,12 @@ public class ExchangeCommand extends Command {
      * @throws IllegalArgumentException         if the currencies are not supported
      * @throws InvalidExchangeArgumentException if arguments are incorrect
      */
-    public Forex formatInput () throws InvalidExchangeArgumentException {
+    public Forex formatInput () throws AssertionError {
         String[] splitInput = input.trim().split(" ");
-        if (splitInput.length != 4) {
-            throw new InvalidExchangeArgumentException();
-        }
+        // if (splitInput.length != 4) {
+        //     throw new InvalidExchangeArgumentException();
+        // }
+        assert splitInput.length == 4;
         Currency initial = Currency.valueOf(splitInput[1]);
         Currency target = Currency.valueOf(splitInput[2]);
         return new Forex(initial, target);
