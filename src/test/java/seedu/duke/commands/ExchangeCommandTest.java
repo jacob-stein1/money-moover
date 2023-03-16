@@ -2,7 +2,9 @@ package seedu.duke.commands;
 
 import org.junit.jupiter.api.Test;
 import seedu.duke.exceptions.InvalidNumberException;
+import seedu.duke.exceptions.TooLargeAmountException;
 import seedu.duke.AccountList;
+import seedu.duke.Account;
 import seedu.duke.ui.Ui;
 import seedu.duke.Currency;
 import seedu.duke.Forex;
@@ -97,24 +99,24 @@ public class ExchangeCommandTest {
             Forex instance = new Forex(Currency.SGD, Currency.JPY);
             BigDecimal expectedJPY = instance.convert(new BigDecimal(1000));
             assertEquals(expectedSGD, actualSGD);
-            assertEquals((int) expectedJPY.floatValue(), (int) actualJPY.floatValue());
+            assertEquals(expectedJPY, actualJPY);
         } catch (Exception e) {
             fail();
         }
     }
 
-    // @Test
-    // public void testExecute_largeInput_shouldThrowTooLargeAmountException () {
-    //     try {
-    //         ExchangeCommand cmd = new ExchangeCommand("exchange SGD VND 100000000");
-    //         AccountList accounts = new AccountList();
-    //         Ui ui = new Ui();
-    //         accounts.addAccount(Currency.SGD, 100000000);
-    //         accounts.addAccount(Currency.VND, 0);
-    //         cmd.execute(ui, accounts);
-    //         assertThrows(TooLargeAmountException.class, cmd::formatInput);
-    //     } catch (Exception e) {
-    //         fail();
-    //     }
-    // }
+    @Test
+    public void testUpdateBalance_largeInput_shouldThrowTooLargeAmountException() {
+        try {
+            AccountList accounts = new AccountList();
+            accounts.addAccount(Currency.VND, 0);
+            Account vnd = accounts.getAccount(Currency.VND);
+            vnd.updateBalance(new BigDecimal(1000000000), "add");
+            fail();
+        } catch (TooLargeAmountException e) {
+            // Tested passed
+        } catch (Exception e) {
+            fail();
+        }
+    }
 }
