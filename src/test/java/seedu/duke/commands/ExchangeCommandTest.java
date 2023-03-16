@@ -3,7 +3,6 @@ package seedu.duke.commands;
 import org.junit.jupiter.api.Test;
 import seedu.duke.exceptions.InvalidNumberException;
 import seedu.duke.exceptions.TooLargeAmountException;
-import seedu.duke.exceptions.ExchangeAmountTooSmallException;
 import seedu.duke.AccountList;
 import seedu.duke.Account;
 import seedu.duke.ui.Ui;
